@@ -41,7 +41,7 @@ steps:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(Build.SourceBranchName)'
+    inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(System.PullRequest.PullRequestNumber)'
 
 - task: AzureCLI@2
   inputs:
@@ -56,8 +56,8 @@ steps:
     ConnectionType: 'AzureRM'
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     appType: 'webApp'
-    WebAppName: 'app-pam-pull-request-test'
+    WebAppName: '$(AppServiceName)'
     deployToSlotOrASE: true
-    ResourceGroupName: 'IKEA'
-    SlotName: '$(Build.SourceBranchName)'
+    ResourceGroupName: '$(ResourceGroup)'
+    SlotName: '$(System.PullRequest.PullRequestNumber)'
     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
