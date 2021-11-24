@@ -48,7 +48,7 @@ steps:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(Build.SourceBranchName)$(URLSuffix)"'
+    inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(System.PullRequest.PullRequestNumber)$(URLSuffix)"'
 
 
 - task: AzureRmWebAppDeployment@4
