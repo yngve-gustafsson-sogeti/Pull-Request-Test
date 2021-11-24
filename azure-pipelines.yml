@@ -4,8 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 pr:
-- main
-
+  branches:
+    include:
+    - main
+    
 pool:
   vmImage: 'windows-latest'
 
