@@ -2,7 +2,6 @@
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 pr:
   branches:
     include:
@@ -15,6 +14,11 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  ResourceGroup: 'IKEA'
+  AssignmentServiceName: 'app-ordercreate-assignmentservice-test'
+  AppServiceName: 'app-pam-pull-request-test'
+  AppServiceURL: 'https://app-pam-pull-request-test'
+  URLSuffix: '.azurewebsites.net'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -35,7 +39,16 @@ steps:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp deployment slot create --name app-pam-pull-request-test --resource-group IKEA --slot $(Build.SourceBranchName)'
+    inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(Build.SourceBranchName)'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(Build.SourceBranchName)$(URLSuffix)"'
+
+
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
