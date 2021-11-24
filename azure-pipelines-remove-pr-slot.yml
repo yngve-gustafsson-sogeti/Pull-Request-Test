@@ -1,0 +1,36 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  ResourceGroup: 'IKEA'
+  AssignmentServiceName: 'app-ordercreate-assignmentservice-test'
+  AppServiceName: 'app-pam-pull-request-test'
+  AppServiceURL: 'https://app-pam-pull-request-test'
+  URLSuffix: '.azurewebsites.net'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az webapp deployment slot delete --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(System.PullRequest.PullRequestNumber)'
+
+# - task: AzureCLI@2
+#   inputs:
+#     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+#     scriptType: 'ps'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(System.PullRequest.PullRequestNumber)$(URLSuffix)"'
+
