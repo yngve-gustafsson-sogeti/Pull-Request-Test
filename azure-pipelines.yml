@@ -67,5 +67,5 @@ steps:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     Destination: 'AzureBlob'
     storage: 'stikeastorageaccount'
-    ContainerName: '$web'
-    TargetPath: ygge
+    ContainerName: 'ygge'
+    TargetPath: 'folder'
