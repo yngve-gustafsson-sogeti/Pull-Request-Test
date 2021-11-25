@@ -60,3 +60,11 @@ steps:
     ResourceGroupName: '$(ResourceGroup)'
     SlotName: '$(Build.SourceBranchName)'
     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
+
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: '$(build.artifactStagingDirectory)'
+    azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+    Destination: 'AzureBlob'
+    storage: 'stikeastorageaccount'
+    ContainerName: '$web/ygge'
