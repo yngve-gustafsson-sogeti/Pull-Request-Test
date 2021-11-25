@@ -40,14 +40,14 @@ steps:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(System.PullRequest.PullRequestNumber)'
+    inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(Build.SourceBranchName)'
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(System.PullRequest.PullRequestNumber)$(URLSuffix)"'
+    inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(Build.SourceBranchName)$(URLSuffix)"'
 
 
 - task: AzureRmWebAppDeployment@4
@@ -58,5 +58,5 @@ steps:
     WebAppName: '$(AppServiceName)'
     deployToSlotOrASE: true
     ResourceGroupName: '$(ResourceGroup)'
-    SlotName: '$(System.PullRequest.PullRequestNumber)'
+    SlotName: '$(Build.SourceBranchName)'
     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
