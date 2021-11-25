@@ -35,31 +35,31 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(Build.SourceBranchName)'
+# - task: AzureCLI@2
+#   inputs:
+#     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+#     scriptType: 'ps'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: 'az webapp deployment slot create --name $(AppServiceName) --resource-group $(ResourceGroup) --slot $(Build.SourceBranchName)'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(Build.SourceBranchName)$(URLSuffix)"'
+# - task: AzureCLI@2
+#   inputs:
+#     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+#     scriptType: 'ps'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: 'az webapp cors add -g $(ResourceGroup) -n $(AssignmentServiceName) --allowed-origins "$(AppServiceURL)-$(Build.SourceBranchName)$(URLSuffix)"'
 
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
-    appType: 'webApp'
-    WebAppName: '$(AppServiceName)'
-    deployToSlotOrASE: true
-    ResourceGroupName: '$(ResourceGroup)'
-    SlotName: '$(Build.SourceBranchName)'
-    packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
+# - task: AzureRmWebAppDeployment@4
+#   inputs:
+#     ConnectionType: 'AzureRM'
+#     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+#     appType: 'webApp'
+#     WebAppName: '$(AppServiceName)'
+#     deployToSlotOrASE: true
+#     ResourceGroupName: '$(ResourceGroup)'
+#     SlotName: '$(Build.SourceBranchName)'
+#     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
 
 - task: AzureFileCopy@4
   inputs:
@@ -67,4 +67,5 @@ steps:
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
     Destination: 'AzureBlob'
     storage: 'stikeastorageaccount'
-    ContainerName: '$web/ygge'
+    ContainerName: '$web'
+    TargetPath: ygge
