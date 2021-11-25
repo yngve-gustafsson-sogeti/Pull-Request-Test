@@ -61,11 +61,18 @@ steps:
 #     SlotName: '$(Build.SourceBranchName)'
 #     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
 
-- task: AzureFileCopy@4
+# - task: AzureFileCopy@4
+#   inputs:
+#     SourcePath: '$(build.artifactStagingDirectory)'
+#     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
+#     Destination: 'AzureBlob'
+#     storage: 'stikeastorageaccount'
+#     ContainerName: 'ygge'
+#     TargetPath: 'folder'
+
+- task: AzureCLI@2
   inputs:
-    SourcePath: '$(build.artifactStagingDirectory)'
     azureSubscription: 'sc-test-ikeaorderandcreate-nonprd'
-    Destination: 'AzureBlob'
-    storage: 'stikeastorageaccount'
-    ContainerName: 'ygge'
-    TargetPath: 'folder'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az storage blob upload-batch -d ygge --account-name stikeastorageaccount --account-key gX9L5ovswzTP/H1VzfpgJdK0H+kyXRxeVR9ULH070Dd6JgQTC0kV6ZgpyD85NskUtPH0qy5btOS+AO/tqVXi7w== -s folder --pattern $(build.artifactStagingDirectory)\*.*'
