@@ -36,11 +36,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
+         
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -70,6 +66,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: .net-app
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
