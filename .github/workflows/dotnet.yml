@@ -20,6 +20,4 @@ jobs:
     - name: Restore dependencies
       run: cd Pull-Request-Test;dotnet restore
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: cd Pull-Request-Test;dotnet build --no-restore
