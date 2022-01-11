@@ -83,11 +83,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az account show
-            az storage -h
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az webapp deployment slot create --name app-pam-githubdeploy --resource-group IKEA --slot ygge-test
-            
+            az webapp deployment slot create --name app-pam-githubdeploy --resource-group IKEA --slot ygge-test           
 
       - name: logout
         run: |
