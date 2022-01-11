@@ -78,6 +78,14 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
+      - name: Create Deployment Slot
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az webapp deployment slot create --name app-pam-githubdeploy --resource-group IKEA --slot ygge-test
+            
+
       - name: logout
         run: |
           az logout
