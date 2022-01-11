@@ -83,6 +83,8 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
+            az account show
+            az storage -h
             az webapp deployment slot create --name app-pam-githubdeploy --resource-group IKEA --slot ygge-test
             
 
