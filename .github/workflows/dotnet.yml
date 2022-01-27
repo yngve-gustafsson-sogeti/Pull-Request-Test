@@ -12,12 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+    - uses: azure/login@v1
       with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: cd Pull-Request-Test;dotnet restore
-    - name: Build
-      run: cd Pull-Request-Test;dotnet build --no-restore
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+       
+    - name: Create Deployment Slot
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
+          az rest --method GET --uri 'https://graph.microsoft.com/v1.0/applications/c8701cf3-3bbe-4c49-9359-b43433f29ec2' --query spa.redirectUris      
