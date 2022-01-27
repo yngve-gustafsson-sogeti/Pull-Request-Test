@@ -21,4 +21,4 @@ jobs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          az rest --method GET --uri 'https://graph.microsoft.com/v1.0/applications/c8701cf3-3bbe-4c49-9359-b43433f29ec2' --query spa.redirectUris      
+          az rest --method GET --uri 'https://graph.microsoft.com/v1.0/applications/cbc0a9d5-1c7c-42b9-9589-7b6515a813c1' --query spa.redirectUris
